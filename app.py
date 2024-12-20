@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify, render_template
 import pickle
 import json
 import numpy as np
+import pandas as pd
 import mysql.connector
 from dotenv import load_dotenv
 import os
+import psycopg2
 
 load_dotenv()
 
@@ -19,12 +21,15 @@ with open('columns.json', 'r') as f:
     locations = data_columns[4:]  # Extract location names for the dropdown
 
 def connect_db():
-    return mysql.connector.connect(
-        host=os.getenv('DB_HOST'),
-        user=os.getenv('DB_USER'),
-        password=os.getenv('DB_PASSWORD'),
-        database=os.getenv('DB_NAME')
-    )
+    try:
+        connection = psycopg2.connect(
+            dsn=os.getenv('DATABASE_URL')  # Using DATABASE_URL directly
+        )
+        print("Database connected successfully!")
+        return connection
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+        return None
 
 def predict(sqft, bhk, balcony, bath, location):
     loc_index = -1
@@ -40,8 +45,10 @@ def predict(sqft, bhk, balcony, bath, location):
     if loc_index >= 0:
         X[loc_index] = 1  # Set the location feature if found
 
+    X_df = pd.DataFrame([X], columns=data_columns)
+
     # Return the predicted price
-    return round(model.predict([X])[0], 2)
+    return round(model.predict([X_df])[0], 2)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -75,4 +82,4 @@ def home():
     return render_template('index.html', locations=locations, predicted_price=predicted_price)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
