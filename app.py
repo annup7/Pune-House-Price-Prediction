@@ -3,6 +3,10 @@ import pickle
 import json
 import numpy as np
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -16,10 +20,10 @@ with open('columns.json', 'r') as f:
 
 def connect_db():
     return mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Anup@123',
-        database='pune_house_price_db'
+        host=os.getenv('DB_HOST'),
+        user=os.getenv('DB_USER'),
+        password=os.getenv('DB_PASSWORD'),
+        database=os.getenv('DB_NAME')
     )
 
 def predict(sqft, bhk, balcony, bath, location):
