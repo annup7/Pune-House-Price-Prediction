@@ -71,4 +71,4 @@ def home():
     return render_template('index.html', locations=locations, predicted_price=predicted_price)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
