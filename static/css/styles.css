@@ -170,11 +170,10 @@
     .footer-social {
         text-align: center;
     }   
-    body{
-        background-attachment: scroll;
-        background-position: center top;
-        background-size: cover;
-    } 
+    body::before {
+        background-attachment: scroll;  /* Removes fixed attachment on mobile */
+        background-position: top center;
+    }
 }
 
 /* Green Submit Button */
@@ -193,14 +192,23 @@
 }
 
 body {
-    background-image: url("/static/images/phpp_background.jpg") ; 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-attachment: fixed; 
-    background-position: center; 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body::before {
+    content: '';
+    position: fixed;  /* Makes it fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("/static/images/phpp_background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: -1; /* Place it behind other content */
 }
 
 /* Ensure HTML and Body Span Full Width */
@@ -297,7 +305,7 @@ html, body {
     .footer-bottom p {
         font-size: 0.9rem;  
     }
-    body {
+    body::before {
         background-size: cover;
         background-position: top center;
     }
