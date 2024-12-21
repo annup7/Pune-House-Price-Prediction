@@ -169,7 +169,10 @@
 
     .footer-social {
         text-align: center;
-    }    
+    }   
+    body{
+        background-image: url("/static/images/phpp_background.jpg") ;
+    } 
 }
 
 /* Green Submit Button */
