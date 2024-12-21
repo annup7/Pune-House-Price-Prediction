@@ -172,6 +172,8 @@
     }   
     body{
         background-attachment: scroll;
+        background-position: center top;
+        background-size: cover;
     } 
 }
 
@@ -294,5 +296,9 @@ html, body {
 
     .footer-bottom p {
         font-size: 0.9rem;  
+    }
+    body {
+        background-size: cover;
+        background-position: top center;
     }
 }
